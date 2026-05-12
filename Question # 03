@@ -1,0 +1,83 @@
+import java.util.*;
+
+public class TopologicalSort {
+
+    static Map<Character, ArrayList<Character>> graph = new HashMap<>();
+    static Set<Character> visited = new HashSet<>();
+    static Stack<Character> stack = new Stack<>();
+
+    
+    static void dfs(char node) {
+
+        visited.add(node);
+
+        for (char neighbor : graph.get(node)) {
+
+            if (!visited.contains(neighbor)) {
+                dfs(neighbor);
+            }
+        }
+
+        stack.push(node);
+    }
+    
+    static void topologicalSort() {
+
+        for (char node : graph.keySet()) {
+
+            if (!visited.contains(node)) {
+                dfs(node);
+            }
+        }
+
+        System.out.println("Topological Sort:");
+
+        while (!stack.isEmpty()) {
+            System.out.print(stack.pop() + " ");
+        }
+    }
+
+    public static void main(String[] args) {
+        
+        char[] vertices = {'m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+
+        for (char v : vertices) {
+            graph.put(v, new ArrayList<>());
+        }
+
+        // Edges
+        graph.get('m').add('q');
+        graph.get('m').add('r');
+        graph.get('m').add('x');
+
+        graph.get('n').add('o');
+        graph.get('n').add('q');
+        graph.get('n').add('u');
+
+        graph.get('o').add('r');
+        graph.get('o').add('s');
+        graph.get('o').add('v');
+
+        graph.get('p').add('o');
+        graph.get('p').add('s');
+        graph.get('p').add('z');
+
+        graph.get('q').add('t');
+
+        graph.get('r').add('u');
+        graph.get('r').add('y');
+
+        graph.get('s').add('r');
+
+        graph.get('u').add('t');
+
+        graph.get('v').add('w');
+        graph.get('v').add('x');
+
+        graph.get('w').add('z');
+
+        graph.get('y').add('v');
+
+        topologicalSort();
+    }
+}
